@@ -65,7 +65,7 @@ export default function HomePage() {
             }}
           >
             Your company&apos;s{" "}
-            <span style={{ color: "#F59E0B" }}>living intelligence.</span>
+            <span className="text-amber-animate">living intelligence.</span>
           </h1>
           <p
             className="max-w-[680px] mx-auto leading-[1.75] mb-10"
@@ -114,12 +114,12 @@ export default function HomePage() {
               Automate the boring stuff.
             </p>
             <p style={{ color: "#6A6A6F", fontStyle: "italic" }}>
-              And underneath it, the same fear: <em style={{ color: "#F5F5F0" }}>Is this thing coming for my job?</em>
+              And underneath it, the same fear: <em className="em-glow-white" style={{ color: "#F5F5F0" }}>Is this thing coming for my job?</em>
             </p>
             <p>
               Here&apos;s the honest answer nobody&apos;s giving you — most AI tools aren&apos;t after your job.
               But they&apos;re not really designed to help you do it better either. They&apos;re designed to
-              do <em style={{ color: "#F5F5F0" }}>tasks.</em> Discrete, isolated, one-at-a-time tasks. They
+              do <em className="em-glow-white" style={{ color: "#F5F5F0" }}>tasks.</em> Discrete, isolated, one-at-a-time tasks. They
               don&apos;t know your company. They don&apos;t know your team. They don&apos;t know you.
             </p>
             <p>
@@ -156,7 +156,7 @@ export default function HomePage() {
           >
             The evolution of AI isn&apos;t smarter tools.
             <br />
-            <span style={{ color: "#F59E0B" }}>It&apos;s smarter teams.</span>
+            <span className="text-amber-animate">It&apos;s smarter teams.</span>
           </h2>
 
           <div className="space-y-6 text-[17px] leading-[1.85]" style={{ color: "#8A8A8F" }}>
@@ -172,10 +172,10 @@ export default function HomePage() {
               something that becomes part of how your company thinks. This is where AI was always
               heading. From task automation to genuine organizational intelligence.
             </p>
-            <p>The question was never <em style={{ color: "#F5F5F0" }}>&ldquo;will AI replace us?&rdquo;</em></p>
+            <p>The question was never <em className="em-glow-white" style={{ color: "#F5F5F0" }}>&ldquo;will AI replace us?&rdquo;</em></p>
             <p>
               The real question is:{" "}
-              <em style={{ color: "#F59E0B" }}>
+              <em className="em-glow-amber" style={{ color: "#F59E0B" }}>
                 &ldquo;What could we do if AI handled everything we shouldn&apos;t be doing — so we could
                 human better?&rdquo;
               </em>
@@ -218,7 +218,7 @@ export default function HomePage() {
             </p>
             <p>
               Not a tool your team uses. An intelligence that{" "}
-              <em style={{ color: "#F5F5F0" }}>joins your team.</em> It learns each person
+              <em className="em-glow-white" style={{ color: "#F5F5F0" }}>joins your team.</em> It learns each person
               individually — their thinking style, their work, their patterns. Over time it compounds
               everything it learns into something your whole organization can draw from.
             </p>
@@ -255,7 +255,7 @@ export default function HomePage() {
             }}
           >
             ACI isn&apos;t here to replace you.{" "}
-            <span style={{ color: "#F59E0B" }}>
+            <span className="text-amber-animate">
               It&apos;s here to make you irreplaceable.
             </span>
           </h2>
@@ -267,7 +267,7 @@ export default function HomePage() {
               workforce and calls it progress. ACI isn&apos;t that.
             </p>
             <p>
-              ACI works <em style={{ color: "#F5F5F0" }}>with</em> your people — not around them,
+              ACI works <em className="em-glow-white" style={{ color: "#F5F5F0" }}>with</em> your people — not around them,
               not instead of them. The more your team interacts with ACI, the better it understands
               what each person does that only a human can do. The judgment calls. The relationships.
               The creative leaps. The vision.
@@ -278,7 +278,7 @@ export default function HomePage() {
             </p>
             <p>
               You help ACI grow.{" "}
-              <em style={{ color: "#F5F5F0" }}>ACI helps you human better.</em>
+              <em className="em-glow-white" style={{ color: "#F5F5F0" }}>ACI helps you human better.</em>
             </p>
 
             <div
@@ -503,7 +503,7 @@ export default function HomePage() {
               }}
             >
               Built for teams.{" "}
-              <span style={{ color: "#F59E0B" }}>Ready for what comes next.</span>
+              <span className="text-amber-animate">Ready for what comes next.</span>
             </h2>
             <p
               className="mt-5 max-w-[600px] mx-auto text-[17px] leading-relaxed"
@@ -531,7 +531,7 @@ export default function HomePage() {
             className="text-center mt-12 text-[18px] font-display font-semibold"
             style={{ color: "#F5F5F0", letterSpacing: "-0.01em" }}
           >
-            If you&apos;ve ever thought <em style={{ color: "#F59E0B" }}>there has to be something smarter than this</em> — there is.
+            If you&apos;ve ever thought <em className="em-glow-amber" style={{ color: "#F59E0B" }}>there has to be something smarter than this</em> — there is.
             <br />
             You&apos;re looking at it.
           </p>

@@ -198,3 +198,51 @@ textarea.form-input {
   from { transform: scale(1); opacity: 1; }
   to   { transform: scale(0); opacity: 0; }
 }
+
+/* ── Amber headline: shimmer sweep + color drift ── */
+@keyframes amberShimmerDrift {
+  0%   { background-position: 120% center; }
+  50%  { background-position: -20% center; }
+  100% { background-position: 120% center; }
+}
+
+.text-amber-animate {
+  background: linear-gradient(
+    90deg,
+    #D97706 0%,
+    #F59E0B 20%,
+    #FBBF24 42%,
+    #FEF9C3 50%,
+    #FBBF24 58%,
+    #F59E0B 80%,
+    #D97706 100%
+  );
+  background-size: 260% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: amberShimmerDrift 7s ease-in-out infinite;
+}
+
+/* ── Glow pulse — white italic emphasis ── */
+@keyframes glowPulseWhite {
+  0%, 100% { text-shadow: none; }
+  50%       { text-shadow: 0 0 14px rgba(255,255,255,0.45), 0 0 6px rgba(255,255,255,0.2); }
+}
+
+.em-glow-white {
+  animation: glowPulseWhite 4.5s ease-in-out infinite;
+  animation-delay: -1.8s; /* offset so it never peaks with amber */
+}
+
+/* ── Glow pulse — amber italic emphasis ── */
+@keyframes glowPulseAmberEm {
+  0%, 100% { text-shadow: none; }
+  50%       { text-shadow: 0 0 16px rgba(245,158,11,0.65), 0 0 8px rgba(245,158,11,0.3); }
+}
+
+.em-glow-amber {
+  animation: glowPulseAmberEm 4s ease-in-out infinite;
+  animation-delay: -3.2s; /* offset from both shimmer and white glow */
+}
