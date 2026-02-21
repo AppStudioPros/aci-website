@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import CompoundAnimation from "@/components/CompoundAnimation";
 import WaitlistForm from "@/components/WaitlistForm";
 import RippleButton from "@/components/RippleButton";
+import SectionDivider from "@/components/SectionDivider";
 
 /* ── Pillar ── */
 function Pillar({ label, text }: { label: string; text: string }) {
@@ -93,7 +94,7 @@ export default function HomePage() {
       {/* ─── 2. THE PROBLEM ─── */}
       <section className="py-28" style={{ borderTop: "1px solid #1E1E21" }}>
         <div className="max-w-[820px] mx-auto px-6">
-          <div className="section-divider" />
+          <SectionDivider />
           <h2
             className="font-display font-semibold text-center mb-14"
             style={{
@@ -144,7 +145,7 @@ export default function HomePage() {
       {/* ─── 3. THE EVOLUTION ─── */}
       <section className="py-28" style={{ background: "#0D0D0F", borderTop: "1px solid #1E1E21", borderBottom: "1px solid #1E1E21" }}>
         <div className="max-w-[820px] mx-auto px-6">
-          <div className="section-divider" />
+          <SectionDivider />
           <h2
             className="font-display font-semibold text-center mb-14"
             style={{
@@ -187,7 +188,7 @@ export default function HomePage() {
       {/* ─── 4. WHAT ACI IS ─── */}
       <section id="what" className="py-28">
         <div className="max-w-[820px] mx-auto px-6">
-          <div className="section-divider" />
+          <SectionDivider />
           <h2
             className="font-display font-semibold text-center mb-14"
             style={{
@@ -244,7 +245,7 @@ export default function HomePage() {
         style={{ background: "#0D0D0F", borderTop: "1px solid #1E1E21", borderBottom: "1px solid #1E1E21" }}
       >
         <div className="max-w-[820px] mx-auto px-6">
-          <div className="section-divider" />
+          <SectionDivider />
           <h2
             className="font-display font-semibold text-center mb-14"
             style={{
@@ -306,7 +307,7 @@ export default function HomePage() {
       {/* ─── 6. THE FIVE PILLARS ─── */}
       <section id="pillars" className="py-28">
         <div className="max-w-[1100px] mx-auto px-6">
-          <div className="section-divider" />
+          <SectionDivider />
           <div className="text-center mb-16">
             <h2
               className="font-display font-semibold"
@@ -371,7 +372,7 @@ export default function HomePage() {
         style={{ background: "#0D0D0F", borderTop: "1px solid #1E1E21", borderBottom: "1px solid #1E1E21" }}
       >
         <div className="max-w-[820px] mx-auto px-6">
-          <div className="section-divider" />
+          <SectionDivider />
           <h2
             className="font-display font-semibold text-center mb-14"
             style={{
@@ -430,7 +431,7 @@ export default function HomePage() {
       {/* ─── 8. THE PROOF ─── */}
       <section className="py-28">
         <div className="max-w-[820px] mx-auto px-6">
-          <div className="section-divider" />
+          <SectionDivider />
           <h2
             className="font-display font-semibold text-center mb-14"
             style={{
@@ -491,7 +492,7 @@ export default function HomePage() {
         style={{ background: "#0D0D0F", borderTop: "1px solid #1E1E21", borderBottom: "1px solid #1E1E21" }}
       >
         <div className="max-w-[1100px] mx-auto px-6">
-          <div className="section-divider" />
+          <SectionDivider />
           <div className="text-center mb-16">
             <h2
               className="font-display font-semibold"
@@ -541,7 +542,7 @@ export default function HomePage() {
       {/* ─── 10. WAITLIST ─── */}
       <section id="waitlist" className="py-28">
         <div className="max-w-[600px] mx-auto px-6">
-          <div className="section-divider" />
+          <SectionDivider />
           <div className="text-center mb-12">
             <h2
               className="font-display font-semibold mb-4"
