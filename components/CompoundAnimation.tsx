@@ -36,17 +36,21 @@ export default function CompoundAnimation() {
     resize();
     window.addEventListener("resize", resize);
 
+    // Track mouse at document level so content on top doesn't block it
     const onMouseMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      // Only apply repulsion while cursor is within the hero bounds
+      if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
+        mouse.x = x;
+        mouse.y = y;
+      } else {
+        mouse.x = -9999;
+        mouse.y = -9999;
+      }
     };
-    const onMouseLeave = () => {
-      mouse.x = -9999;
-      mouse.y = -9999;
-    };
-    canvas.addEventListener("mousemove", onMouseMove);
-    canvas.addEventListener("mouseleave", onMouseLeave);
+    document.addEventListener("mousemove", onMouseMove);
 
     // Initialize nodes
     for (let i = 0; i < NODE_COUNT; i++) {
@@ -125,15 +129,14 @@ export default function CompoundAnimation() {
     return () => {
       cancelAnimationFrame(animId);
       window.removeEventListener("resize", resize);
-      canvas.removeEventListener("mousemove", onMouseMove);
-      canvas.removeEventListener("mouseleave", onMouseLeave);
+      document.removeEventListener("mousemove", onMouseMove);
     };
   }, []);
 
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full"
+      className="absolute inset-0 w-full h-full pointer-events-none"
       style={{ opacity: 0.6 }}
     />
   );
