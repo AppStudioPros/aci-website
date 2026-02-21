@@ -8,11 +8,12 @@ interface ClickRipple {
   size: number;
 }
 
-interface HoverRipple {
+interface HoverState {
   x: number;
   y: number;
   size: number;
-  active: boolean;
+  phase: "in" | "out";
+  key: number; // force remount on re-enter
 }
 
 interface RippleButtonProps {
@@ -37,75 +38,74 @@ export default function RippleButton({
   style,
 }: RippleButtonProps) {
   const [clickRipples, setClickRipples] = useState<ClickRipple[]>([]);
-  const [hoverRipple, setHoverRipple] = useState<HoverRipple | null>(null);
+  const [hover, setHover] = useState<HoverState | null>(null);
   const nextId = useRef(0);
+  const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Colors
+  const HOVER_DURATION = 420; // ms — match hoverIn/hoverOut animation duration
+
   const hoverFillColor =
     variant === "primary"
-      ? "#FBBF24"                      // lighter amber fill on hover
-      : "rgba(245,158,11,0.18)";       // subtle amber tint for ghost
+      ? "#FBBF24"
+      : "rgba(245,158,11,0.18)";
 
   const clickRippleColor =
     variant === "primary"
-      ? "rgba(255,255,255,0.4)"        // light white flash on click
-      : "rgba(245,158,11,0.35)";       // amber flash for ghost
+      ? "rgba(255,255,255,0.4)"
+      : "rgba(245,158,11,0.35)";
 
-  /* ── Hover handlers ── */
+  /* ── Hover in ── */
   const handleMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
+    if (leaveTimer.current) clearTimeout(leaveTimer.current);
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     const size = Math.max(rect.width, rect.height) * 2.6;
-    setHoverRipple({ x, y, size, active: true });
+    setHover({ x, y, size, phase: "in", key: nextId.current++ });
   };
 
+  /* ── Hover out ── */
   const handleMouseLeave = () => {
-    setHoverRipple((prev) => (prev ? { ...prev, active: false } : null));
-    // Clean up after transition
-    setTimeout(() => setHoverRipple(null), 400);
+    setHover((prev) => (prev ? { ...prev, phase: "out" } : null));
+    leaveTimer.current = setTimeout(() => setHover(null), HOVER_DURATION);
   };
 
-  /* ── Click handler ── */
+  /* ── Click ── */
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const size = Math.max(rect.width, rect.height) * 2.6;
     const x = e.clientX - rect.left - size / 2;
     const y = e.clientY - rect.top - size / 2;
     const id = nextId.current++;
-
     setClickRipples((prev) => [...prev, { id, x, y, size }]);
     setTimeout(() => {
       setClickRipples((prev) => prev.filter((r) => r.id !== id));
     }, 600);
-
     onClick?.();
   };
 
-  const baseStyle: React.CSSProperties = {
+  const sharedStyle: React.CSSProperties = {
     position: "relative",
     overflow: "hidden",
-    // Remove default CSS hover — we handle it via the ripple
     transition: "box-shadow 0.2s ease, transform 0.2s ease",
     ...style,
   };
 
   const content = (
     <>
-      {/* Hover fill ripple */}
-      {hoverRipple && (
+      {/* Hover fill ripple — keyed so it remounts fresh on every enter */}
+      {hover && (
         <span
+          key={hover.key}
           style={{
             position: "absolute",
-            left: hoverRipple.x - hoverRipple.size / 2,
-            top: hoverRipple.y - hoverRipple.size / 2,
-            width: hoverRipple.size,
-            height: hoverRipple.size,
+            left: hover.x - hover.size / 2,
+            top: hover.y - hover.size / 2,
+            width: hover.size,
+            height: hover.size,
             borderRadius: "50%",
             background: hoverFillColor,
-            transform: hoverRipple.active ? "scale(1)" : "scale(0)",
-            opacity: hoverRipple.active ? 1 : 0,
-            transition: "transform 0.45s ease, opacity 0.35s ease",
+            animation: `${hover.phase === "in" ? "hoverIn" : "hoverOut"} ${HOVER_DURATION}ms ease forwards`,
             pointerEvents: "none",
             zIndex: 0,
           }}
@@ -147,7 +147,7 @@ export default function RippleButton({
       <a
         href={href}
         className={baseClass}
-        style={baseStyle}
+        style={sharedStyle}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onClick={handleClick}
@@ -161,13 +161,11 @@ export default function RippleButton({
     <button
       type={type}
       className={baseClass}
-      style={baseStyle}
+      style={sharedStyle}
       disabled={disabled}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onClick={(e) => {
-        handleClick(e);
-      }}
+      onClick={handleClick}
     >
       {content}
     </button>
