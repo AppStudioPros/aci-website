@@ -1,11 +1,18 @@
 "use client";
 import { useRef, useState, type ReactNode } from "react";
 
-interface Ripple {
+interface ClickRipple {
   id: number;
   x: number;
   y: number;
   size: number;
+}
+
+interface HoverRipple {
+  x: number;
+  y: number;
+  size: number;
+  active: boolean;
 }
 
 interface RippleButtonProps {
@@ -29,38 +36,84 @@ export default function RippleButton({
   onClick,
   style,
 }: RippleButtonProps) {
-  const [ripples, setRipples] = useState<Ripple[]>([]);
+  const [clickRipples, setClickRipples] = useState<ClickRipple[]>([]);
+  const [hoverRipple, setHoverRipple] = useState<HoverRipple | null>(null);
   const nextId = useRef(0);
 
-  const addRipple = (e: React.MouseEvent<HTMLElement>) => {
-    const el = e.currentTarget;
-    const rect = el.getBoundingClientRect();
-    const size = Math.max(rect.width, rect.height) * 2;
+  // Colors
+  const hoverFillColor =
+    variant === "primary"
+      ? "#FBBF24"                      // lighter amber fill on hover
+      : "rgba(245,158,11,0.18)";       // subtle amber tint for ghost
+
+  const clickRippleColor =
+    variant === "primary"
+      ? "rgba(255,255,255,0.4)"        // light white flash on click
+      : "rgba(245,158,11,0.35)";       // amber flash for ghost
+
+  /* ── Hover handlers ── */
+  const handleMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const size = Math.max(rect.width, rect.height) * 2.6;
+    setHoverRipple({ x, y, size, active: true });
+  };
+
+  const handleMouseLeave = () => {
+    setHoverRipple((prev) => (prev ? { ...prev, active: false } : null));
+    // Clean up after transition
+    setTimeout(() => setHoverRipple(null), 400);
+  };
+
+  /* ── Click handler ── */
+  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height) * 2.6;
     const x = e.clientX - rect.left - size / 2;
     const y = e.clientY - rect.top - size / 2;
     const id = nextId.current++;
 
-    setRipples((prev) => [...prev, { id, x, y, size }]);
-
-    // Remove after animation completes
+    setClickRipples((prev) => [...prev, { id, x, y, size }]);
     setTimeout(() => {
-      setRipples((prev) => prev.filter((r) => r.id !== id));
+      setClickRipples((prev) => prev.filter((r) => r.id !== id));
     }, 600);
+
+    onClick?.();
   };
 
-  const baseClass =
-    variant === "primary"
-      ? `btn-primary ${className}`
-      : `btn-ghost ${className}`;
-
-  const rippleColor =
-    variant === "primary"
-      ? "rgba(255,255,255,0.25)"
-      : "rgba(245,158,11,0.2)";
+  const baseStyle: React.CSSProperties = {
+    position: "relative",
+    overflow: "hidden",
+    // Remove default CSS hover — we handle it via the ripple
+    transition: "box-shadow 0.2s ease, transform 0.2s ease",
+    ...style,
+  };
 
   const content = (
     <>
-      {ripples.map((r) => (
+      {/* Hover fill ripple */}
+      {hoverRipple && (
+        <span
+          style={{
+            position: "absolute",
+            left: hoverRipple.x - hoverRipple.size / 2,
+            top: hoverRipple.y - hoverRipple.size / 2,
+            width: hoverRipple.size,
+            height: hoverRipple.size,
+            borderRadius: "50%",
+            background: hoverFillColor,
+            transform: hoverRipple.active ? "scale(1)" : "scale(0)",
+            opacity: hoverRipple.active ? 1 : 0,
+            transition: "transform 0.45s ease, opacity 0.35s ease",
+            pointerEvents: "none",
+            zIndex: 0,
+          }}
+        />
+      )}
+
+      {/* Click ripples */}
+      {clickRipples.map((r) => (
         <span
           key={r.id}
           style={{
@@ -70,24 +123,34 @@ export default function RippleButton({
             width: r.size,
             height: r.size,
             borderRadius: "50%",
-            background: rippleColor,
+            background: clickRippleColor,
             transform: "scale(0)",
             animation: "ripple 0.6s linear",
             pointerEvents: "none",
+            zIndex: 1,
           }}
         />
       ))}
-      {children}
+
+      {/* Content always on top */}
+      <span style={{ position: "relative", zIndex: 2 }}>{children}</span>
     </>
   );
+
+  const baseClass =
+    variant === "primary"
+      ? `btn-primary ${className}`
+      : `btn-ghost ${className}`;
 
   if (href) {
     return (
       <a
         href={href}
         className={baseClass}
-        style={{ position: "relative", overflow: "hidden", ...style }}
-        onClick={addRipple}
+        style={baseStyle}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onClick={handleClick}
       >
         {content}
       </a>
@@ -98,11 +161,12 @@ export default function RippleButton({
     <button
       type={type}
       className={baseClass}
-      style={{ position: "relative", overflow: "hidden", ...style }}
+      style={baseStyle}
       disabled={disabled}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       onClick={(e) => {
-        addRipple(e);
-        onClick?.();
+        handleClick(e);
       }}
     >
       {content}

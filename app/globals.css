@@ -123,7 +123,6 @@ body {
   text-decoration: none;
 }
 .btn-primary:hover {
-  background: #FBBF24;
   transform: translateY(-1px);
   box-shadow: 0 8px 24px rgba(245,158,11,0.25);
 }
@@ -145,8 +144,7 @@ body {
   text-decoration: none;
 }
 .btn-ghost:hover {
-  border-color: rgba(245,158,11,0.3);
-  color: #F59E0B;
+  border-color: rgba(245,158,11,0.4);
 }
 
 /* Nav */
