@@ -72,7 +72,7 @@ export default function HomePage() {
             Get Early Access →
           </RippleButton>
           <p className="mt-6 text-[13px]" style={{ color: "#3A3A3F" }}>
-            Patent Pending · Limited Early Access
+            Patent Pending — US App. 63/987,765 · Limited Early Access
           </p>
         </Reveal>
         <div

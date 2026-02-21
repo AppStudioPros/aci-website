@@ -11,7 +11,7 @@ export default function Footer() {
             Adaptive Compound Intelligence™
           </span>
           <p className="text-[13px] mt-1" style={{ color: "#5A5A5F" }}>
-            Patent Pending · © 2026 All Rights Reserved
+            Patent Pending — US App. 63/987,765 · © 2026 All Rights Reserved
           </p>
         </div>
         <div className="flex flex-col items-center md:items-end gap-1">

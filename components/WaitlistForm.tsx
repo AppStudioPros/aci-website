@@ -102,7 +102,7 @@ export default function WaitlistForm() {
         {loading ? "Sending..." : "Get Early Access →"}
       </RippleButton>
       <p className="text-center text-[12px]" style={{ color: "#5A5A5F" }}>
-        Patent Pending. Built by builders, for builders.
+        Patent Pending — US App. 63/987,765 · Built by builders, for builders.
       </p>
     </form>
   );
