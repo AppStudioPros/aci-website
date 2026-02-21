@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { DM_Sans, Lora } from "next/font/google";
 import "./globals.css";
+import ScrollProgress from "@/components/ScrollProgress";
+import CursorDot from "@/components/CursorDot";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -40,6 +42,8 @@ export default function RootLayout({
         />
       </head>
       <body className="font-[var(--font-dm-sans)]">
+        <ScrollProgress />
+        <CursorDot />
         {children}
       </body>
     </html>

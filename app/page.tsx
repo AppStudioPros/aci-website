@@ -5,6 +5,7 @@ import WaitlistForm from "@/components/WaitlistForm";
 import RippleButton from "@/components/RippleButton";
 import SectionDivider from "@/components/SectionDivider";
 import { Reveal, RevealGroup } from "@/components/Reveal";
+import WordReveal from "@/components/WordReveal";
 
 /* ── Pillar ── */
 function Pillar({ label, text }: { label: string; text: string }) {
@@ -343,19 +344,14 @@ export default function HomePage() {
               <p>The argument: that&apos;s the wrong question.</p>
             </div>
           </Reveal>
-          <Reveal delay={0.2}>
-            <div className="my-12 py-2">
-              <blockquote className="pullquote">
-                &ldquo;My system wasn&apos;t programmed with different intelligence types. It develops different
-                capabilities based on who&apos;s interacting with it. That&apos;s not Gardner. It&apos;s not
-                traditional ML either. It&apos;s shaped by exposure, not architecture. Call it adaptive
-                compound intelligence.&rdquo;
-              </blockquote>
-              <p className="mt-4 text-[13px] font-medium tracking-wide uppercase ml-8" style={{ color: "#5A5A5F" }}>
-                — Oxford University, Module 3, February 2026
-              </p>
-            </div>
-          </Reveal>
+          <div className="my-12 py-2">
+            <blockquote className="pullquote">
+              <WordReveal text="&quot;My system wasn't programmed with different intelligence types. It develops different capabilities based on who's interacting with it. That's not Gardner. It's not traditional ML either. It's shaped by exposure, not architecture. Call it adaptive compound intelligence.&quot;" />
+            </blockquote>
+            <p className="mt-4 text-[13px] font-medium tracking-wide uppercase ml-8" style={{ color: "#5A5A5F" }}>
+              — Oxford University, Module 3, February 2026
+            </p>
+          </div>
           <Reveal delay={0.1}>
             <div className="space-y-4 text-[17px] leading-[1.85]" style={{ color: "#8A8A8F" }}>
               <p style={{ color: "#F5F5F0" }}>The term landed. The concept was real. The system was already running.</p>
