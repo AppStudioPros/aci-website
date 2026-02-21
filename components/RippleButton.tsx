@@ -42,7 +42,7 @@ export default function RippleButton({
   const nextId = useRef(0);
   const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const HOVER_DURATION = 420; // ms — match hoverIn/hoverOut animation duration
+  const HOVER_DURATION = 700; // ms — match hoverIn/hoverOut animation duration
 
   const hoverFillColor =
     variant === "primary"

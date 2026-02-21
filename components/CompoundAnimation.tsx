@@ -21,7 +21,7 @@ export default function CompoundAnimation() {
 
     let animId: number;
     const nodes: Node[] = [];
-    const NODE_COUNT = 36; // +15% density
+    const NODE_COUNT = 45;
     const CONNECTION_DIST = 160;
     const AMBER = "245,158,11";
     const REPULSION_RADIUS = 120;
