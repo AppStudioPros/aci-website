@@ -21,9 +21,13 @@ export default function CompoundAnimation() {
 
     let animId: number;
     const nodes: Node[] = [];
-    const NODE_COUNT = 28;
+    const NODE_COUNT = 31; // +10% density
     const CONNECTION_DIST = 160;
     const AMBER = "245,158,11";
+    const REPULSION_RADIUS = 120;
+    const REPULSION_FORCE = 0.6;
+
+    const mouse = { x: -9999, y: -9999 };
 
     const resize = () => {
       canvas.width = canvas.offsetWidth;
@@ -31,6 +35,18 @@ export default function CompoundAnimation() {
     };
     resize();
     window.addEventListener("resize", resize);
+
+    const onMouseMove = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+    };
+    const onMouseLeave = () => {
+      mouse.x = -9999;
+      mouse.y = -9999;
+    };
+    canvas.addEventListener("mousemove", onMouseMove);
+    canvas.addEventListener("mouseleave", onMouseLeave);
 
     // Initialize nodes
     for (let i = 0; i < NODE_COUNT; i++) {
@@ -49,6 +65,26 @@ export default function CompoundAnimation() {
 
       // Update + bounce nodes
       for (const n of nodes) {
+        // Mouse repulsion
+        const dx = n.x - mouse.x;
+        const dy = n.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < REPULSION_RADIUS && dist > 0) {
+          const force = (1 - dist / REPULSION_RADIUS) * REPULSION_FORCE;
+          n.vx += (dx / dist) * force;
+          n.vy += (dy / dist) * force;
+        }
+
+        // Speed cap to keep movement natural
+        const speed = Math.sqrt(n.vx * n.vx + n.vy * n.vy);
+        if (speed > 1.8) {
+          n.vx = (n.vx / speed) * 1.8;
+          n.vy = (n.vy / speed) * 1.8;
+        }
+        // Gentle drift back to base speed
+        n.vx *= 0.995;
+        n.vy *= 0.995;
+
         n.x += n.vx;
         n.y += n.vy;
         if (n.x < 0 || n.x > canvas.width) n.vx *= -1;
@@ -89,13 +125,15 @@ export default function CompoundAnimation() {
     return () => {
       cancelAnimationFrame(animId);
       window.removeEventListener("resize", resize);
+      canvas.removeEventListener("mousemove", onMouseMove);
+      canvas.removeEventListener("mouseleave", onMouseLeave);
     };
   }, []);
 
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full pointer-events-none"
+      className="absolute inset-0 w-full h-full"
       style={{ opacity: 0.6 }}
     />
   );
