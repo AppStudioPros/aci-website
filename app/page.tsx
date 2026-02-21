@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CompoundAnimation from "@/components/CompoundAnimation";
 import WaitlistForm from "@/components/WaitlistForm";
+import RippleButton from "@/components/RippleButton";
 
 /* ── Pillar ── */
 function Pillar({ label, text }: { label: string; text: string }) {
@@ -75,9 +76,9 @@ export default function HomePage() {
             helps everyone do what only humans can do, better. Not here to replace you.
             Here to make you irreplaceable.
           </p>
-          <a href="#waitlist" className="btn-primary text-[16px]" style={{ padding: "16px 36px" }}>
+          <RippleButton href="#waitlist" style={{ padding: "16px 36px", fontSize: "16px" }}>
             Get Early Access →
-          </a>
+          </RippleButton>
           <p className="mt-6 text-[13px]" style={{ color: "#3A3A3F" }}>
             Patent Pending · Limited Early Access
           </p>
@@ -355,9 +356,9 @@ export default function HomePage() {
                 <br />
                 Always growing.
               </p>
-              <a href="#waitlist" className="btn-primary text-[14px]" style={{ padding: "10px 20px" }}>
+              <RippleButton href="#waitlist" style={{ padding: "10px 20px", fontSize: "14px" }}>
                 Get Early Access →
-              </a>
+              </RippleButton>
             </div>
           </div>
         </div>

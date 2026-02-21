@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import RippleButton from "@/components/RippleButton";
 
 export default function WaitlistForm() {
   const [submitted, setSubmitted] = useState(false);
@@ -93,13 +94,13 @@ export default function WaitlistForm() {
           rows={3}
         />
       </div>
-      <button
+      <RippleButton
         type="submit"
-        className="btn-primary w-full justify-center"
+        className="w-full justify-center"
         disabled={loading}
       >
         {loading ? "Sending..." : "Get Early Access →"}
-      </button>
+      </RippleButton>
       <p className="text-center text-[12px]" style={{ color: "#5A5A5F" }}>
         Patent Pending. Built by builders, for builders.
       </p>

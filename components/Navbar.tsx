@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
+import RippleButton from "@/components/RippleButton";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -42,9 +43,9 @@ export default function Navbar() {
               {l.label}
             </a>
           ))}
-          <a href="#waitlist" className="btn-primary" style={{ padding: "9px 20px", fontSize: "13px" }}>
+          <RippleButton href="#waitlist" style={{ padding: "9px 20px", fontSize: "13px" }}>
             Get Early Access
-          </a>
+          </RippleButton>
         </div>
 
         {/* Mobile menu button */}
@@ -77,9 +78,9 @@ export default function Navbar() {
               {l.label}
             </a>
           ))}
-          <a href="#waitlist" className="btn-primary text-center" onClick={() => setOpen(false)}>
+          <RippleButton href="#waitlist" className="justify-center" onClick={() => setOpen(false)}>
             Get Early Access
-          </a>
+          </RippleButton>
         </div>
       )}
     </nav>

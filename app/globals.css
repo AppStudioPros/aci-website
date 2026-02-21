@@ -180,3 +180,11 @@ textarea.form-input {
   resize: vertical;
   min-height: 100px;
 }
+
+/* Ripple animation */
+@keyframes ripple {
+  to {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
