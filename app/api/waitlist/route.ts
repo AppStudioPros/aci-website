@@ -45,7 +45,7 @@ export async function POST(req: Request) {
 
     // ── Send email via Resend ──
     const { error } = await resend.emails.send({
-      from: "ACI Waitlist <onboarding@resend.dev>",
+      from: "ACI Waitlist <noreply@mail.adaptivecompoundintelligence.com>",
       to: ["info@adaptivecompoundintelligence.com"],
       replyTo: email,
       subject: `New Early Access Request — ${firstName} ${lastName}`,
