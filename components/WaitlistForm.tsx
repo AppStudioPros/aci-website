@@ -1,20 +1,35 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Script from "next/script";
 import RippleButton from "@/components/RippleButton";
 
-export default function WaitlistForm() {
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [turnstileReady, setTurnstileReady] = useState(false);
+const TURNSTILE_SITE_KEY = "0x4AAAAAACgZ00UkyngLR8Vp";
 
-  // Re-render the Turnstile widget once the script loads
+export default function WaitlistForm() {
+  const [submitted, setSubmitted]         = useState(false);
+  const [loading, setLoading]             = useState(false);
+  const [error, setError]                 = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [scriptLoaded, setScriptLoaded]   = useState(false);
+  const widgetRef  = useRef<HTMLDivElement>(null);
+  const widgetId   = useRef<string | null>(null);
+
+  // Render widget once script is loaded and div is mounted
   useEffect(() => {
-    if (typeof window !== "undefined" && (window as any).turnstile && !turnstileReady) {
-      setTurnstileReady(true);
-    }
-  }, [turnstileReady]);
+    if (!scriptLoaded || !widgetRef.current) return;
+    if (widgetId.current) return; // already rendered
+
+    const win = window as any;
+    if (!win.turnstile) return;
+
+    widgetId.current = win.turnstile.render(widgetRef.current, {
+      sitekey: TURNSTILE_SITE_KEY,
+      theme: "dark",
+      callback:           (token: string) => setTurnstileToken(token),
+      "error-callback":   ()              => setTurnstileToken(""),
+      "expired-callback": ()              => setTurnstileToken(""),
+    });
+  }, [scriptLoaded]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -22,17 +37,14 @@ export default function WaitlistForm() {
     setError(null);
 
     const form = e.currentTarget;
-
     const data = {
-      firstName:  (form.elements.namedItem("firstName")  as HTMLInputElement).value,
-      lastName:   (form.elements.namedItem("lastName")   as HTMLInputElement).value,
-      email:      (form.elements.namedItem("email")      as HTMLInputElement).value,
-      company:    (form.elements.namedItem("company")    as HTMLInputElement).value,
-      use_case:   (form.elements.namedItem("use_case")   as HTMLTextAreaElement).value,
-      // Honeypot — bots fill this, humans don't
-      website:    (form.elements.namedItem("website")    as HTMLInputElement)?.value ?? "",
-      // Turnstile token — auto-populated by the widget
-      turnstileToken: (form.elements.namedItem("cf-turnstile-response") as HTMLInputElement)?.value ?? "",
+      firstName:     (form.elements.namedItem("firstName")  as HTMLInputElement).value,
+      lastName:      (form.elements.namedItem("lastName")   as HTMLInputElement).value,
+      email:         (form.elements.namedItem("email")      as HTMLInputElement).value,
+      company:       (form.elements.namedItem("company")    as HTMLInputElement).value,
+      use_case:      (form.elements.namedItem("use_case")   as HTMLTextAreaElement).value,
+      website:       (form.elements.namedItem("website")    as HTMLInputElement)?.value ?? "",
+      turnstileToken,
     };
 
     try {
@@ -50,6 +62,12 @@ export default function WaitlistForm() {
       setSubmitted(true);
     } catch (err: any) {
       setError(err.message ?? "Something went wrong — please try again or email us directly.");
+      // Reset Turnstile so user can retry
+      const win = window as any;
+      if (win.turnstile && widgetId.current) {
+        win.turnstile.reset(widgetId.current);
+        setTurnstileToken("");
+      }
     } finally {
       setLoading(false);
     }
@@ -71,29 +89,22 @@ export default function WaitlistForm() {
 
   return (
     <>
-      {/* Load Turnstile script */}
       <Script
         src="https://challenges.cloudflare.com/turnstile/v0/api.js"
         strategy="lazyOnload"
-        onLoad={() => setTurnstileReady(true)}
+        onLoad={() => setScriptLoaded(true)}
       />
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* ── Honeypot — hidden from real users, bots fill it ── */}
+
+        {/* Honeypot — invisible to humans, bots fill it */}
         <input
           type="text"
           name="website"
           tabIndex={-1}
           autoComplete="off"
           aria-hidden="true"
-          style={{
-            position: "absolute",
-            opacity: 0,
-            height: 0,
-            width: 0,
-            zIndex: -1,
-            pointerEvents: "none",
-          }}
+          style={{ position: "absolute", opacity: 0, height: 0, width: 0, zIndex: -1, pointerEvents: "none" }}
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -122,12 +133,8 @@ export default function WaitlistForm() {
           <textarea name="use_case" placeholder="Tell us what's broken, what you're hoping for, or what problem you'd love solved..." className="form-input" rows={3} />
         </div>
 
-        {/* Cloudflare Turnstile widget — dark theme to match site */}
-        <div
-          className="cf-turnstile"
-          data-sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
-          data-theme="dark"
-        />
+        {/* Turnstile widget — renders here once script loads */}
+        <div ref={widgetRef} />
 
         {error && (
           <p className="text-[13px] text-center" style={{ color: "#EF4444" }}>{error}</p>
