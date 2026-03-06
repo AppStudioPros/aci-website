@@ -60,13 +60,27 @@ export default function HomePage() {
             <span className="text-amber-animate">living intelligence.</span>
           </h1>
           <p
-            className="max-w-[680px] mx-auto leading-[1.75] mb-10"
+            className="max-w-[680px] mx-auto leading-[1.75] mb-6"
             style={{ fontSize: "clamp(17px, 2vw, 21px)", color: "#8A8A8F" }}
           >
             ACI isn&apos;t the next AI tool. It&apos;s the evolution of AI itself — one intelligence
             that knows every person on your team, compounds knowledge across all of them, and
             helps everyone do what only humans can do, better. Not here to replace you.
             Here to make you irreplaceable.
+          </p>
+          <p
+            className="max-w-[700px] mx-auto leading-[1.5] mb-4 font-display font-semibold"
+            style={{ fontSize: "clamp(19px, 2.5vw, 26px)", color: "#F59E0B" }}
+          >
+            Software companies sell you a box and tell you to fit inside it.
+            ACI learns your shape and builds the box around you.
+          </p>
+          <p
+            className="max-w-[600px] mx-auto leading-[1.75] mb-10"
+            style={{ fontSize: "clamp(15px, 1.8vw, 18px)", color: "#F5F5F0" }}
+          >
+            Every AI decision human-verified. Every action backed by a provable audit trail.
+            No black boxes. Full accountability.
           </p>
           <RippleButton href="#waitlist" style={{ padding: "16px 36px", fontSize: "16px" }}>
             Get Early Access →
@@ -155,6 +169,21 @@ export default function HomePage() {
                 something that becomes part of how your company thinks. This is where AI was always
                 heading. From task automation to genuine organizational intelligence.
               </p>
+              <p className="font-display font-semibold text-[22px] pt-2" style={{ color: "#F59E0B", letterSpacing: "-0.01em" }}>
+                Every other platform bolts AI onto existing software and calls it innovation.
+                ACI is the intelligence — and it builds the software for you.
+              </p>
+              <p>
+                Need a CRM? ACI builds one that fits how your company actually sells — not how
+                Salesforce thinks you should. Need project management? ACI already knows your
+                workflows and creates tools around them. Need compliance tracking? ACI doesn&apos;t
+                bolt onto Jira — it builds a system that matches your actual processes.
+              </p>
+              <p>
+                And every single decision, every recommendation, every automated action — verified
+                by humans with provable, immutable audit trails. No black boxes. No mystery.
+                Full accountability at every step.
+              </p>
               <p>The question was never <em className="em-glow-white" style={{ color: "#F5F5F0" }}>&ldquo;will AI replace us?&rdquo;</em></p>
               <p>
                 The real question is:{" "}
@@ -213,8 +242,9 @@ export default function HomePage() {
               <p style={{ color: "#5A5A5F" }}>It doesn&apos;t replace anyone.</p>
               <p style={{ color: "#5A5A5F" }}>It doesn&apos;t audit your workflows.</p>
               <p style={{ color: "#5A5A5F" }}>It doesn&apos;t tell you what&apos;s broken.</p>
+              <p style={{ color: "#5A5A5F" }}>It doesn&apos;t bolt onto your existing tools and call it &ldquo;AI-powered.&rdquo;</p>
               <p className="pt-2 font-display font-semibold text-[18px]" style={{ color: "#F59E0B" }}>
-                It becomes part of the crew.
+                It becomes part of the crew. And then it builds whatever the crew needs.
               </p>
             </div>
           </Reveal>
